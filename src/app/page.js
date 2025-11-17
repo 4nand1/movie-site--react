@@ -22,39 +22,9 @@ import { Search } from "lucide-react";
 import { Default } from "./_components/Default";
 import { DataTransfer } from "./_components/genres";
 import { FeatureMovies } from "./_components/poster";
+import { upcomingData } from "./_components/upcomingData";
 
-const upcomingMovies = [
-  {
-    id: 1,
-    title: "Dear Santa",
-    rating: "6.9",
-    image: "/dear-santa.jpg", // дараа нь public дотор poster зургаа хийж тааруул
-  },
-  {
-    id: 2,
-    title: "How To Train Your Dragon Live Action",
-    rating: "7.5",
-    image: "/dragon-live.jpg",
-  },
-  {
-    id: 3,
-    title: "Alien Romulus",
-    rating: "8.0",
-    image: "/alien-romulus.jpg",
-  },
-  {
-    id: 4,
-    title: "From the Ashes",
-    rating: "7.1",
-    image: "/from-the-ashes.jpg",
-  },
-  {
-    id: 5,
-    title: "Space Dogg",
-    rating: "6.8",
-    image: "/space-dogg.jpg",
-  },
-];
+
 
 export default function Home() {
   return (
@@ -149,54 +119,30 @@ export default function Home() {
           <CarouselNext className="right-4" />
         </Carousel>
       </section>
-      {/* ==== UPCOMING SECTION ==== */}
       <section className="px-10 py-8">
-        {/* Гарчиг мөр */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-[#09090B]">Upcoming</h2>
-          <button className="text-xs text-gray-500 hover:text-gray-800 flex items-center gap-1">
-            See more <span>›</span>
-          </button>
+  <h2 className="text-xl font-semibold text-[#09090B] mb-4">Upcoming</h2>
+
+  <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+    {upcomingData.map((item, index) => (
+      <div
+        key={item.id}
+        className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm"
+      >
+        <div className="h-56 bg-gray-300">
+        <img src={item.img} className="w-full h-full object-cover" />
         </div>
 
-        {/* Carousel */}
-        <Carousel className="w-full">
-          <CarouselContent className="flex gap-4">
-            {upcomingMovies.map((movie) => (
-              <CarouselItem
-                key={movie.id}
-                className="basis-auto sm:basis-1/3 md:basis-1/5"
-              >
-                <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-                  
-                  <div className="h-56 bg-gray-300">
-                    
-                    <img
-                      src={movie.image}
-                      alt={movie.title}
-                      className="w-full h-full object-cover"
-                    />
-                   
-                  </div>
+        <div className="p-3 bg-gray-400">
+          <p className="text-[11px] text-gray-500 mb-1">⭐ {item.rating} / 10</p>
 
-                  {/* Доорх текст */}
-                  <div className="p-3">
-                    <p className="text-[11px] text-gray-500 mb-1">
-                      ⭐ {movie.rating} / 10
-                    </p>
-                    <p className="text-sm font-medium text-[#09090B]">
-                      {movie.title}
-                    </p>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-
-          <CarouselPrevious className="left-0" />
-          <CarouselNext className="right-0" />
-        </Carousel>
-      </section>
+          <p className="text-sm font-medium text-[#09090B]">
+            {item.title}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
     </main>
   );
 }
