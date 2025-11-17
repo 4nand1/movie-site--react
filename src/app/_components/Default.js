@@ -1,5 +1,7 @@
-import { Badge } from "../components/ui/badge";
+import { Badge } from "../../components/ui/badge";
 import { ChevronRight } from "lucide-react";
+
+import React from "react";
 
 export const Default = (props) => {
     return (
