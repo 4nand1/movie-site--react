@@ -126,26 +126,32 @@ export default function Home() {
     <h2 className="text-xl font-semibold text-[#09090B]">Upcoming</h2>
     <SeeMoreButton href="/upcoming" />
   </div>
-        <div className="grid gap-4 grid-cols-2  sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {upcomingData.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm"
-            >
-              <div className="h-56 bg-gray-300">
-                <img src={item.img} className="w-full h-full object-cover" />
-              </div>
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+  {upcomingData.map((item) => (
+    <div
+      key={item.id}   // ← ЭНД тавина, className-тай нэг мөрөнд
+      className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm"
+    >
+      <div className="h-56 bg-gray-300">
+        <img
+          src={item.img}
+          alt={item.title}
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-              <div className="p-3">
-                <p className="text-[11px]  mb-1">⭐ {item.rating} / 10</p>
+      <div className="p-3">
+        <p className="text-[11px] text-gray-500 mb-1">
+          ⭐ {item.rating} / 10
+        </p>
+        <p className="text-sm font-medium text-[#09090B]">
+          {item.title}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
 
-                <p className="text-sm font-medium text-[#09090B]">
-                  {item.title}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section className="px-10 pb-8">

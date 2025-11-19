@@ -61,3 +61,5 @@ export const upcomingData = [
   },
   
 ];
+
+export default upcomingData;

@@ -1,3 +1,5 @@
+import popularPage from "../popular/page";
+
 export const popularData = [
   {
     id: 1,
@@ -60,3 +62,5 @@ export const popularData = [
     rating: "8.6",  
   },
 ];
+
+export default popularData;
