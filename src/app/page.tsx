@@ -26,7 +26,7 @@ import { upcomingData } from "./_components/upcomingData";
 import { popularData } from "./_components/popularData";
 import { topRated } from "./_components/topRated";
 import SeeMoreButton from "./_components/SeeMoreButton";
-
+import { Footer } from "./_components/Footer"
 
 export default function Home() {
   return (
@@ -129,7 +129,7 @@ export default function Home() {
         <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
   {upcomingData.map((item) => (
     <div
-      key={item.id}   // ← ЭНД тавина, className-тай нэг мөрөнд
+      key={item.id}   
       className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm"
     >
       <div className="h-56 bg-gray-300">
@@ -206,6 +206,13 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <section>
+        <Footer>
+          
+        </Footer>
+      </section>
+
+      
     </main>
   );
 }

@@ -61,3 +61,5 @@ export const topRated = [
         rating: "8.8",
     },
 ];
+
+export default topRated;

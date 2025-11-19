@@ -1,13 +1,13 @@
-
 import Link from "next/link";
-import { popularData } from "../_components/popularData"; 
+import { topRated } from "../_components/topRated";
+import { Footer } from "../_components/Footer"
 
-export default function popularPage() {
+export default function topPage() {
   return (
     <main className="min-h-screen bg-[#f3f4f6] px-10 py-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold text-[#09090B]">
-          Popular movies
+          Top Rated movies
         </h1>
 
         <Link href="/" className="text-xs text-gray-500 hover:underline">
@@ -16,7 +16,7 @@ export default function popularPage() {
       </div>
 
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {popularData.map((item) => (
+        {topRated.map((item) => (
           <div
             key={item.id}
             className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm"
@@ -37,8 +37,10 @@ export default function popularPage() {
               </p>
             </div>
           </div>
+          
         ))}
       </div>
     </main>
+  
   );
 }
