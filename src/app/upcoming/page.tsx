@@ -1,8 +1,9 @@
 
 import Link from "next/link";
-import upcomingData from "../_components/upcomingData";
+
 
 export default function UpcomingPage() {
+  
   return (
     <main className="min-h-screen bg-[#f3f4f6] px-10 py-8">
       <div className="flex items-center justify-between mb-6">

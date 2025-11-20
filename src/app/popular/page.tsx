@@ -1,6 +1,5 @@
-
 import Link from "next/link";
-import { popularData } from "../_components/popularData"; 
+import { popularData } from "../_components/popularData";
 
 export default function popularPage() {
   return (
@@ -32,9 +31,7 @@ export default function popularPage() {
               <p className="text-[11px] text-gray-500 mb-1">
                 ⭐ {item.rating} / 10
               </p>
-              <p className="text-sm font-medium text-[#09090B]">
-                {item.title}
-              </p>
+              <p className="text-sm font-medium text-[#09090B]">{item.title}</p>
             </div>
           </div>
         ))}

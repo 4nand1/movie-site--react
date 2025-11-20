@@ -1,15 +1,15 @@
-import { Badge } from "../../components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { ChevronRight } from "lucide-react";
 
-import React from "react";
-
 export const Default = (props) => {
-    return (
-        <Badge className="text-3 leading-4 text-[#09090B] font-semibold font-sans"
-        variant="outline">
-            {props.name}
-            <ChevronRight className="ml-2 w-4 h-4 text-[#52525B]" />
-        </Badge>
-    );
+  return (
+    <Badge
+      key={"asda"}
+      className="text-3 leading-4 text-[#09090B] font-semibold font-sans"
+      variant="outline"
+    >
+      {props.name}
+      <ChevronRight className="ml-2 w-4 h-4 text-[#52525B]" />
+    </Badge>
+  );
 };
-    

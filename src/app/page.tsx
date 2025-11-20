@@ -22,11 +22,13 @@ import { Search } from "lucide-react";
 import { Default } from "./_components/Default";
 import { DataTransfer } from "./_components/genres";
 import { FeatureMovies } from "./_components/poster";
-import { upcomingData } from "./_components/upcomingData";
+
 import { popularData } from "./_components/popularData";
 import { topRated } from "./_components/topRated";
 import SeeMoreButton from "./_components/SeeMoreButton";
-import { Footer } from "./_components/Footer"
+import { Footer } from "./_components/Footer";
+import { MovieSection } from "./_components/MovieSection";
+
 
 export default function Home() {
   return (
@@ -122,43 +124,20 @@ export default function Home() {
         </Carousel>
       </section>
       <section className="px-10 py-8">
-        <div className="flex items-center justify-between mb-4">
+  <div className="flex items-center justify-between mb-4">
     <h2 className="text-xl font-semibold text-[#09090B]">Upcoming</h2>
     <SeeMoreButton href="/upcoming" />
   </div>
-        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-  {upcomingData.map((item) => (
-    <div
-      key={item.id}   
-      className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm"
-    >
-      <div className="h-56 bg-gray-300">
-        <img
-          src={item.img}
-          alt={item.title}
-          className="w-full h-full object-cover"
-        />
-      </div>
 
-      <div className="p-3">
-        <p className="text-[11px] text-gray-500 mb-1">
-          ⭐ {item.rating} / 10
-        </p>
-        <p className="text-sm font-medium text-[#09090B]">
-          {item.title}
-        </p>
-      </div>
-    </div>
-  ))}
-</div>
+  <MovieSection />
+</section>
 
-      </section>
 
       <section className="px-10 pb-8">
         <div className="flex items-center justify-between mb-4">
-    <h2 className="text-xl font-semibold text-[#09090B]">Popular</h2>
-    <SeeMoreButton href="/popular" />
-  </div>
+          <h2 className="text-xl font-semibold text-[#09090B]">Popular</h2>
+          <SeeMoreButton href="/popular" />
+        </div>
         <div className="grid gap-4 grid-cols-2  sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {popularData.map((item) => (
             <div
@@ -183,9 +162,9 @@ export default function Home() {
 
       <section className="px-10 pb-8">
         <div className="flex items-center justify-between mb-4">
-    <h2 className="text-xl font-semibold text-[#09090B]">Top Rated</h2>
-    <SeeMoreButton href="/top-rated" />
-  </div>
+          <h2 className="text-xl font-semibold text-[#09090B]">Top Rated</h2>
+          <SeeMoreButton href="/top-rated" />
+        </div>
         <div className="grid gap-4 grid-cols-2  sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {topRated.map((item) => (
             <div
@@ -195,7 +174,7 @@ export default function Home() {
               <div className="h-56 bg-gray-300">
                 <img src={item.img} className="w-full h-full object-cover" />
               </div>
-              
+
               <div className="p-3 ">
                 <p className="text-[11px]  mb-1">⭐ {item.rating} / 10</p>
                 <p className="text-sm font-medium text-[#09090B]">
@@ -207,12 +186,8 @@ export default function Home() {
         </div>
       </section>
       <section>
-        <Footer>
-          
-        </Footer>
+        <Footer></Footer>
       </section>
-
-      
     </main>
   );
 }
