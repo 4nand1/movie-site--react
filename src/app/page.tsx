@@ -123,6 +123,8 @@ export default function Home() {
           <CarouselNext className="right-4" />
         </Carousel>
       </section>
+
+      
       <section className="px-10 py-8">
   <div className="flex items-center justify-between mb-4">
     <h2 className="text-xl font-semibold text-[#09090B]">Upcoming</h2>

@@ -28,6 +28,7 @@ type Response = {
 };
 
 export const MovieSection = () => {
+  // movies-ийг анхнаасаа хоосон array болгоно → map дээр алдаа гарахгүй
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
@@ -36,22 +37,31 @@ export const MovieSection = () => {
         const res = await fetch(
           "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
           {
+            method: "GET",
             headers: {
-              Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
               accept: "application/json",
+              // ЭНД TOKEN-ОО ОРУУЛ
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTBmNzRkZjEzMTdhMjNkNWVmM2E3OTMzMDhhMGQ1OSIsIm5iZiI6MTc2MzUyMzU2OS45Mjk5OTk4LCJzdWIiOiI2OTFkM2JmMThjMjY4ZjAzYTYyZDQxM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.fjSnRCovwF4rjUgEamZEk0VD2sMSrH4At5SU8WV6p6k",
             },
           }
         );
 
         const data = (await res.json()) as Response;
-        setMovies(data.results);
+        console.log("🔴 API RESPONSE:", data);
+
+
+        // results байхгүй байвал [] болгож өгнө
+        setMovies(Array.isArray(data.results) ? data.results : []);
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setMovies([]);
       }
     };
 
     getData();
   }, []);
+
 
   return (
     <div className="grid grid-cols-5 gap-4 p-10 bg-gray-100">
