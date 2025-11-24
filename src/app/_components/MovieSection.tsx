@@ -27,20 +27,24 @@ type Response = {
   total_results: number;
 };
 
-export const MovieSection = () => {
-  // movies-ийг анхнаасаа хоосон array болгоно → map дээр алдаа гарахгүй
+type Props = {
+  category: string;
+  limit?: number;
+};
+
+export const MovieSection = ({ category, limit }: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     const getData = async () => {
       try {
         const res = await fetch(
-          "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
+          `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`,
           {
             method: "GET",
             headers: {
               accept: "application/json",
-              // ЭНД TOKEN-ОО ОРУУЛ
+
               Authorization:
                 "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTBmNzRkZjEzMTdhMjNkNWVmM2E3OTMzMDhhMGQ1OSIsIm5iZiI6MTc2MzUyMzU2OS45Mjk5OTk4LCJzdWIiOiI2OTFkM2JmMThjMjY4ZjAzYTYyZDQxM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.fjSnRCovwF4rjUgEamZEk0VD2sMSrH4At5SU8WV6p6k",
             },
@@ -48,10 +52,6 @@ export const MovieSection = () => {
         );
 
         const data = (await res.json()) as Response;
-        console.log("🔴 API RESPONSE:", data);
-
-
-        // results байхгүй байвал [] болгож өгнө
         setMovies(Array.isArray(data.results) ? data.results : []);
       } catch (error) {
         console.error(error);
@@ -60,12 +60,13 @@ export const MovieSection = () => {
     };
 
     getData();
-  }, []);
+  }, [category]);
 
+  const visibleMovies = limit ? movies.slice(0, limit) : movies;
 
   return (
-    <div className="grid grid-cols-5 gap-4 p-10 bg-gray-100">
-      {movies.map((movie) => (
+    <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      {visibleMovies.map((movie) => (
         <MovieCard key={movie.id} movie={movie} />
       ))}
     </div>
