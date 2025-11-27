@@ -17,7 +17,7 @@ const TITLE_MAP: Record<string, string> = {
 export default function CategoryPage() {
   const { category } = useParams<Params>();
 
-  // category verifiy – буруу slug орвол 404
+  
   if (!category || !TITLE_MAP[category]) {
     return notFound();
   }
