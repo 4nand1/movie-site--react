@@ -11,7 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Default } from "./Default";
 import { DataTransfer } from "./Genres";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type Genre = {
   id: number;
@@ -19,37 +20,35 @@ type Genre = {
 };
 
 export const Header = () => {
+  const [genres, setGenres] = useState<Genre[]>([]);
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/genre/movie/list?language=en`,
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTBmNzRkZjEzMTdhMjNkNWVmM2E3OTMzMDhhMGQ1OSIsIm5iZiI6MTc2MzUyMzU2OS45Mjk5OTk4LCJzdWIiOiI2OTFkM2JmMThjMjY4ZjAzYTYyZDQxM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.fjSnRCovwF4rjUgEamZEk0VD2sMSrH4At5SU8WV6p6k",
+            },
+          }
+        );
 
-    const [genres, setGenres] = useState<Genre[]>([]);
-    useEffect(() => {
-      const fetchGenres = async () => {
-        try {
-          const res = await fetch(
-            `https://api.themoviedb.org/3/genre/movie/list?language=en`,
-            {
-              method: "GET",
-              headers: {
-                accept: "application/json",
-                Authorization:
-                  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTBmNzRkZjEzMTdhMjNkNWVmM2E3OTMzMDhhMGQ1OSIsIm5iZiI6MTc2MzUyMzU2OS45Mjk5OTk4LCJzdWIiOiI2OTFkM2JmMThjMjY4ZjAzYTYyZDQxM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.fjSnRCovwF4rjUgEamZEk0VD2sMSrH4At5SU8WV6p6k",
-              },
-            }
-          );
-  
-          const data = await res.json();
-          setGenres(data.genres);
-        } catch (error) {
-          console.error("Error fetching genres:", error);
-        }
-      };
-  
-      fetchGenres();
-    }, []);
+        const data = await res.json();
+        setGenres(data.genres);
+      } catch (error) {
+        console.error("Error fetching genres:", error);
+      }
+    };
 
-    const genreList = genres.length ? genres : DataTransfer;
+    fetchGenres();
+  }, []);
+
+  const genreList = genres.length ? genres : DataTransfer;
 
   return (
-
     <header className="h-[64px] flex items-center justify-between px-10 border-b border-gray-200">
       <div className="flex items-center gap-2">
         <img src="/Vector.png" />
@@ -72,10 +71,17 @@ export const Header = () => {
                 </p>
               </div>
               <div className="w-[537px] h-[15px] border-b border-[#E4E4E7] "></div>
+
               <div className="w-[527px] flex flex-wrap gap-4 mt-5">
-                {DataTransfer.map((item, index) => {
-                  return Default({ key: index, name: item.name });
-                })}
+                {genreList.map((item, index) => (
+                  <Link
+                    key={item.id ?? index} // key-ээ энд
+                    href={`/genres/${item.id}`} // 🟢 ЖАНРЫН ID-гаар линк үүсгэнэ
+                    className="no-underline"
+                  >
+                    <Default name={item.name} /> {/* badge компонент чинь */}
+                  </Link>
+                ))}
               </div>
             </NavigationMenuContent>
           </NavigationMenuItem>

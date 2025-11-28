@@ -4,7 +4,6 @@ import { ChevronRight } from "lucide-react";
 export const Default = (props) => {
   return (
     <Badge
-      key={"asda"}
       className="text-3 leading-4 text-[#09090B] font-semibold font-sans"
       variant="outline"
     >

@@ -193,7 +193,6 @@ export default function MovieDetailPage() {
           </div>
         </div>
         <div className="h-[271px] w-[1080px] gap-5 flex-col flex">
-         
           <div className="flex flex-wrap gap-2 text-sm">
             {genres.map((g) => (
               <span
@@ -211,22 +210,17 @@ export default function MovieDetailPage() {
 
           <div className=" flex items-center gap-10">
             <p className="text-[16px]  font-bold">Director</p>
-            <p className="text-[14px] text-[#4B5563]">
-              
-              {director?.name}
-            </p>
+            <p className="text-[14px] text-[#4B5563]">{director?.name}</p>
           </div>
           <div className=" flex items-center gap-10">
             <p className="text-[16px] font-bold">Writers</p>
             <p className="text-[14px] text-[#4B5563]">
-           
               {writers?.map((w) => w.name).join(" · ")}
             </p>
           </div>
           <div className=" flex items-center gap-10">
             <p className="text-[16px] font-bold">Stars</p>
             <p className="text-[14px] text-[#4B5563]">
-           
               {stars?.map((s) => s.name).join(" · ")}
             </p>
           </div>
@@ -235,8 +229,12 @@ export default function MovieDetailPage() {
         <div className="w-[1080px] space-y-4">
           <div className="flex justify-between w-full">
             <p className="text-[24px] font-semibold">More like this</p>
-            <Button variant="secondary">
-              See more <ArrowRight className="h-4 w-4" />
+            <Button variant="secondary" asChild>
+              <Link href={`/LIkeThis/${movie.id}`}>
+                {" "}
+               
+                See more <ArrowRight className="h-4 w-4" />
+              </Link>
             </Button>
           </div>
 
