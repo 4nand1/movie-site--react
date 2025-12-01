@@ -10,8 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Default } from "./Default";
-import { DataTransfer } from "./Genres";
+import { DataTransfer } from "./genres";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 
 type Genre = {
@@ -75,11 +77,11 @@ export const Header = () => {
               <div className="w-[527px] flex flex-wrap gap-4 mt-5">
                 {genreList.map((item, index) => (
                   <Link
-                    key={item.id ?? index} // key-ээ энд
-                    href={`/genres/${item.id}`} // 🟢 ЖАНРЫН ID-гаар линк үүсгэнэ
+                    key={item.id ?? index}
+                    href={`/genres/${item.id}`}
                     className="no-underline"
                   >
-                    <Default name={item.name} /> {/* badge компонент чинь */}
+                    <Default name={item.name} />{" "}
                   </Link>
                 ))}
               </div>
