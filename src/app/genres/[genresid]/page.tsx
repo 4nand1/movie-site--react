@@ -6,6 +6,7 @@ import { Footer } from "../../_components/Footer";
 import { BackHome } from "../../_components/BackHome";
 import { MovieCard } from "../../_components/MovieCard";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 type Genre = {
   id: number;
@@ -30,7 +31,9 @@ export default function MovieGenresPage() {
   const [genre, setGenre] = useState<Genre | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
+  // 🆕 баруун талын жанрын жагсаалт
+  const [allGenres, setAllGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
     if (!genresid) return;
@@ -54,7 +57,7 @@ export default function MovieGenresPage() {
         const moviesData = await moviesRes.json();
         setMovies(moviesData.results || []);
 
-        // 2) Жанрын нэр (id → name)
+        // 2) Жанрын нэр (id → name) + бүх жанрын list
         const genresRes = await fetch(
           "https://api.themoviedb.org/3/genre/movie/list?language=en-US",
           {
@@ -66,9 +69,11 @@ export default function MovieGenresPage() {
         );
 
         const genresData = await genresRes.json();
-        const found = (genresData.genres as Genre[]).find(
-          (g) => String(g.id) === String(genresid)
-        );
+        const list = (genresData.genres || []) as Genre[];
+
+        setAllGenres(list); // sidebar-д ашиглана
+
+        const found = list.find((g) => String(g.id) === String(genresid));
         setGenre(found || null);
       } catch (e) {
         console.error(e);
@@ -82,30 +87,74 @@ export default function MovieGenresPage() {
   }, [genresid]);
 
   return (
-    <div>
-      <Header />
-      <main className="container mx-auto px-10 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">
-            Movies in Genre:{" "}
-            {genre ? genre.name : loading ? "Loading..." : "Unknown"}
-          </h1>
-          <BackHome />
-        </div>
+  <div className="min-h-screen bg-background text-foreground">
+    <Header />
 
-        {loading && <p className="text-sm text-[#6B7280]">Loading movies...</p>}
+    {/* Фигма шиг: зүүн – үр дүн, баруун – жанр sidebar */}
+    <main className="container mx-auto px-10 py-8">
+      <div className="flex gap-8">
+        {/* ЗҮҮН ТАЛ – Search results */}
+        <section className="flex-1">
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <p className="text-xs uppercase tracking-wide text-zinc-400 mb-1">
+                Search results
+              </p>
+              <h1 className="text-2xl md:text-3xl font-bold">
+                Movies in Genre:{" "}
+                {genre ? genre.name : loading ? "Loading..." : "Unknown"}
+              </h1>
+            </div>
+            <BackHome />
+          </div>
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
+          <p className="text-xs text-zinc-500 mb-6">
+            {loading
+              ? "Loading movies..."
+              : `${movies.length} results for “${genre?.name ?? ""}”`}
+          </p>
 
-        {!loading && !error && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+          {error && (
+            <p className="text-sm text-red-500 mb-4">{error}</p>
+          )}
+
+          {!loading && !error && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {movies.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* БАРУУН ТАЛ – Search by genre */}
+        <aside className="w-64 shrink-0 rounded-lg border-[#27272A]  px-4 py-4">
+          <p className="text-2xl font-semibold  mb-1">
+            Search by genre
+          </p>
+          <p className="text-xs text-zinc-400 mb-3">
+            See lists of movies by genre
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {allGenres.map((g) => (
+              <Link
+                key={g.id}
+                href={`/genres/${g.id}`}
+                className="text-xs px-3 py-1 rounded-full border border-[#3F3F46]
+                             hover:bg-zinc-800 hover:border-zinc-500
+                           transition-colors"
+              >
+                {g.name}
+              </Link>
             ))}
           </div>
-        )}
-      </main>
-      <Footer />
-    </div>
-  );
+        </aside>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+);
+
 }

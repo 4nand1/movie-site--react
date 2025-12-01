@@ -8,7 +8,7 @@ export const MovieCard = ({ movie }: any) => {
 
   return (
     <Link href={`/movie/${movie.id}`}>
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+      <div className=" dark:bg-muted rounded-lg border border-gray-200 overflow-hidden shadow-sm">
         <div className="w-full aspect-[2/3] bg-gray-200">
           <img
             src={imgSrc}
@@ -18,8 +18,11 @@ export const MovieCard = ({ movie }: any) => {
         </div>
 
         <div className="p-3">
-          <p className="text-xs">⭐ {movie.vote_average} / 10</p>
-          <p className="text-sm font-medium text-[#09090B] truncate">
+          <div className="flex items-center gap-1">
+          <img src="/Vector (3).png" className="w-4 h-4 inline-block mr-1" />
+          <p className="text-xs"> {movie.vote_average} / 10</p>
+          </div>
+          <p className="text-sm font-medium text-[#09090B] dark:text-white truncate">
             {movie.title}
           </p>
         </div>

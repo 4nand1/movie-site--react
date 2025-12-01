@@ -1,23 +1,3 @@
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from "@/components/ui/navigation-menu";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-
 import { Search } from "lucide-react";
 import { Default } from "./_components/Default";
 import { DataTransfer } from "./_components/Genres";
@@ -29,14 +9,14 @@ import { Header } from "./_components/Header";
 
 export default function Home() {
   return (
-    <main className="min-h-screen   bg-[#f3f4f6]">
+    <main className="min-h-screen   ">
       <Header></Header>
 
       <HeroSection />
 
       <section className="px-10 py-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-[#09090B]">Upcoming</h2>
+          <h2 className="text-xl font-semibold ">Upcoming</h2>
           <SeeMoreButton href="/movies/upcoming" />
         </div>
         <MovieSection category="upcoming" limit={5} />
@@ -44,7 +24,7 @@ export default function Home() {
 
       <section className="px-10 pb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-[#09090B]">Popular</h2>
+          <h2 className="text-xl font-semibold ">Popular</h2>
           <SeeMoreButton href="/movies/popular" />
         </div>
         <MovieSection category="popular" limit={5} />
@@ -52,7 +32,7 @@ export default function Home() {
 
       <section className="px-10 pb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-[#09090B]">Top Rated</h2>
+          <h2 className="text-xl font-semibold ">Top Rated</h2>
           <SeeMoreButton href="/movies/top-rated" />
         </div>
         <MovieSection category="top_rated" limit={5} />

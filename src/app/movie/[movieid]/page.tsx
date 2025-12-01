@@ -150,7 +150,7 @@ export default function MovieDetailPage() {
       : movie.vote_count.toString();
 
   return (
-    <div className="flex flex-col items-center gap-3 min-h-screen bg-[#f3f4f6]">
+    <div className="flex flex-col items-center gap-3 min-h-screen ">
       <Header />
       <div className="w-[1080px] flex-end mt-4">
         <BackHome />

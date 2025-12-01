@@ -10,11 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Default } from "./Default";
-import { DataTransfer } from "./genres";
+import { DataTransfer } from "./Genres";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import Link from "next/link";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
 
 type Genre = {
   id: number;
@@ -23,6 +24,16 @@ type Genre = {
 
 export const Header = () => {
   const [genres, setGenres] = useState<Genre[]>([]);
+  const { theme, setTheme } = useTheme();
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter(); 
+
+  const handleSearch = () => {
+    const q = searchTerm.trim();
+    if (!q) return;
+    router.push(`/search?query=${encodeURIComponent(q)}`);
+  };
+
   useEffect(() => {
     const fetchGenres = async () => {
       try {
@@ -58,7 +69,7 @@ export const Header = () => {
       </div>
 
       <div className="flex flex-1 items-center gap-3 max-w-[600px] mx-8">
-        <NavigationMenu className="w-25 h-9 bg-[#FFFFFF] rounded-md   border border-[#E4E4E7]">
+        <NavigationMenu className="w-25 h-9  rounded-md border ">
           <NavigationMenuItem>
             <NavigationMenuTrigger className="px-4 py-2 text-sm font-medium">
               Genres
@@ -77,29 +88,42 @@ export const Header = () => {
               <div className="w-[527px] flex flex-wrap gap-4 mt-5">
                 {genreList.map((item, index) => (
                   <Link
-                    key={item.id ?? index}
+                    key={index}
                     href={`/genres/${item.id}`}
                     className="no-underline"
                   >
-                    <Default name={item.name} />{" "}
+                    <Default name={item.name} />
                   </Link>
                 ))}
               </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenu>
+
         <div className="flex flex-1 items-center gap-2 border rounded px-2 py-1">
-          <Search className="" />
+          <Search className="cursor-pointer" onClick={handleSearch} />
           <Input
             type="text"
             placeholder="Search..."
             className="w-full text-sm border-white"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSearch();
+            }}
           />
         </div>
       </div>
 
-      <Button className="w-8 h-8 rounded bg-gray-300 p-0">
-        <img src="/Vector (2).png" />
+      <Button
+        className="w-8 h-8 rounded  p-0 flex items-center justify-center"
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")} 
+      >
+        {theme === "dark" ? (
+          <Sun className="w-4 h-4" />
+        ) : (
+          <Moon className="w-4 h-4" />
+        )}
       </Button>
     </header>
   );

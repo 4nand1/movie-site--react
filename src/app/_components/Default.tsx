@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 export const Default = (props) => {
   return (
     <Badge
-      className="text-3 leading-4 text-[#09090B] font-semibold font-sans"
+      className="text-3 leading-4 font-semibold font-sans"
       variant="outline"
     >
       {props.name}
