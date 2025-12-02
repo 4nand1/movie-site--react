@@ -1,6 +1,5 @@
-import { Search } from "lucide-react";
-import { Default } from "./_components/Default";
-import { DataTransfer } from "./_components/Genres";
+
+import { DataTransfer } from "./_components/genres";
 import SeeMoreButton from "./_components/SeeMoreButton";
 import { Footer } from "./_components/Footer";
 import { MovieSection } from "./_components/MovieSection";

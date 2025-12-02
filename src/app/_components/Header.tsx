@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Default } from "./Default";
-import { DataTransfer } from "./Genres";
+import { DataTransfer } from "./genres";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -76,10 +76,10 @@ export const Header = () => {
             </NavigationMenuTrigger>
             <NavigationMenuContent className="pl- border border-[#E4E4E7] rounded-lg w-[557px] h-[333px]">
               <div className="flex flex-col gap-3">
-                <p className="text-[24px] text-[#09090B] leading-6 font-semibold font-sans">
+                <p className="text-[24px]  leading-6 font-semibold font-sans">
                   Genres
                 </p>
-                <p className="text-[16px] text-[#09090B] leading-6 font-normal font-sans">
+                <p className="text-[16px] ] leading-6 font-normal font-sans">
                   See lists of movies by genre
                 </p>
               </div>

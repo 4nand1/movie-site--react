@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import lucide from "lucide-react";
+import Link from "next/link";
 
 type HeroMovie = {
   id: number;
@@ -89,12 +90,15 @@ export const HeroSection = () => {
                       {movie.overview}
                     </p>
 
+                    <Link href={`/movie/${movie.id}`}>
+
                     <Button
                       variant="outline"
                       className="bg-white dark:bg-white text-black text-sm font-medium px-5 py-2 rounded-full"
                     >
                       Watch Trailer
                     </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
