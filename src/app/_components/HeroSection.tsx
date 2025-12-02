@@ -12,6 +12,7 @@ import {
 import lucide from "lucide-react";
 import Link from "next/link";
 
+
 type HeroMovie = {
   id: number;
   title: string;

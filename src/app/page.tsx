@@ -1,5 +1,5 @@
 
-import { DataTransfer } from "./_components/genres";
+import { DataTransfer } from "./_components/Genres";
 import SeeMoreButton from "./_components/SeeMoreButton";
 import { Footer } from "./_components/Footer";
 import { MovieSection } from "./_components/MovieSection";

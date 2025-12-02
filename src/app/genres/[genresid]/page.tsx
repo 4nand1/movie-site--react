@@ -8,6 +8,8 @@ import { MovieCard } from "../../_components/MovieCard";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
+import { MoviePagination } from "../../_components/Pagination";
+
 type Genre = {
   id: number;
   name: string;
@@ -24,7 +26,7 @@ const TOKEN =
   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTBmNzRkZjEzMTdhMjNkNWVmM2E3OTMzMDhhMGQ1OSIsIm5iZiI6MTc2MzUyMzU2OS45Mjk5OTk4LCJzdWIiOiI2OTFkM2JmMThjMjY4ZjAzYTYyZDQxM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.fjSnRCovwF4rjUgEamZEk0VD2sMSrH4At5SU8WV6p6k";
 
 export default function MovieGenresPage() {
-  // URL: /genres/[genresid]
+ 
   const { genresid } = useParams<{ genresid: string }>();
 
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -32,8 +34,12 @@ export default function MovieGenresPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 🆕 баруун талын жанрын жагсаалт
+  
   const [allGenres, setAllGenres] = useState<Genre[]>([]);
+
+
+  const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState<number | null>(null);
 
   useEffect(() => {
     if (!genresid) return;
@@ -42,7 +48,7 @@ export default function MovieGenresPage() {
       try {
         setLoading(true);
 
-        // 1) Энэ жанрын кинонууд
+        
         const moviesRes = await fetch(
           `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genresid}&page=1`,
           {
@@ -56,8 +62,9 @@ export default function MovieGenresPage() {
         if (!moviesRes.ok) throw new Error("Failed to load movies by genre");
         const moviesData = await moviesRes.json();
         setMovies(moviesData.results || []);
+        setTotalPages(moviesData.total_pages || null);
 
-        // 2) Жанрын нэр (id → name) + бүх жанрын list
+       
         const genresRes = await fetch(
           "https://api.themoviedb.org/3/genre/movie/list?language=en-US",
           {
@@ -71,7 +78,7 @@ export default function MovieGenresPage() {
         const genresData = await genresRes.json();
         const list = (genresData.genres || []) as Genre[];
 
-        setAllGenres(list); // sidebar-д ашиглана
+        setAllGenres(list);
 
         const found = list.find((g) => String(g.id) === String(genresid));
         setGenre(found || null);
@@ -84,7 +91,7 @@ export default function MovieGenresPage() {
     };
 
     fetchData();
-  }, [genresid]);
+  }, [genresid, page]);
 
   return (
   <div className="min-h-screen bg-background text-foreground">
@@ -92,7 +99,7 @@ export default function MovieGenresPage() {
 
   <main className="container mx-auto px-10 py-8">
     <div className="flex gap-8">
-      {/* ЗҮҮН ТАЛ – Search results */}
+      
       <section className="flex-1">
         <div className="flex justify-between items-center mb-4">
           <div>
@@ -118,28 +125,20 @@ export default function MovieGenresPage() {
         )}
 
         {!loading && !error && (
-          <>
-            {/* картууд */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {movies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </div>
+  <>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} movie={movie} />
+      ))}
+    </div>
 
-            {/* доод pagination */}
-            <div className="flex items-center justify-center gap-6 mt-8 text-xs text-zinc-500">
-              <button className="hover:text-zinc-900 dark:hover:text-white">
-                Previous
-              </button>
-              <span className="px-3 py-1 rounded border border-zinc-300 text-zinc-900 dark:text-white text-sm">
-                1
-              </span>
-              <button className="hover:text-zinc-900 dark:hover:text-white">
-                Next
-              </button>
-            </div>
-          </>
-        )}
+    <MoviePagination
+      page={page}
+      totalPages={totalPages ?? undefined}
+      onPageChange={setPage}
+    />
+  </>
+)}
       </section>
 
       {/* БАРУУН ТАЛ – Search by genre */}
@@ -169,6 +168,8 @@ export default function MovieGenresPage() {
       </aside>
     </div>
   </main>
+  
+
 
   <Footer />
 </div>
