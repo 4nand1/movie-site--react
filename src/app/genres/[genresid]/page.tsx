@@ -29,7 +29,7 @@ export default function MovieGenresPage() {
  
   const { genresid } = useParams<{ genresid: string }>();
 
-  const [movies, setMovies] = useState<Movie[]>([]);
+  
   const [genre, setGenre] = useState<Genre | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,61 +37,66 @@ export default function MovieGenresPage() {
   
   const [allGenres, setAllGenres] = useState<Genre[]>([]);
 
+const [movies, setMovies] = useState<Movie[]>([]);
+const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState<number | undefined>();
 
-  const [page, setPage] = useState(1);
-const [totalPages, setTotalPages] = useState<number | null>(null);
-
+  
   useEffect(() => {
-    if (!genresid) return;
+  if (!genresid) return;
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
 
-        
-        const moviesRes = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genresid}&page=1`,
-          {
-            headers: {
-              accept: "application/json",
-              Authorization: TOKEN,
-            },
-          }
-        );
+      // 1) Энэ жанрын тухайн page-ийн кинонууд
+      const moviesRes = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genresid}&page=${page}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: TOKEN,
+          },
+        }
+      );
 
-        if (!moviesRes.ok) throw new Error("Failed to load movies by genre");
-        const moviesData = await moviesRes.json();
-        setMovies(moviesData.results || []);
-        setTotalPages(moviesData.total_pages || null);
-
-       
-        const genresRes = await fetch(
-          "https://api.themoviedb.org/3/genre/movie/list?language=en-US",
-          {
-            headers: {
-              accept: "application/json",
-              Authorization: TOKEN,
-            },
-          }
-        );
-
-        const genresData = await genresRes.json();
-        const list = (genresData.genres || []) as Genre[];
-
-        setAllGenres(list);
-
-        const found = list.find((g) => String(g.id) === String(genresid));
-        setGenre(found || null);
-      } catch (e) {
-        console.error(e);
-        setError("Failed to load movies");
-      } finally {
-        setLoading(false);
+      if (!moviesRes.ok) {
+        throw new Error("Failed to load movies by genre");
       }
-    };
 
-    fetchData();
-  }, [genresid, page]);
+      const moviesData = await moviesRes.json();
+      setMovies(moviesData.results || []);
+      setTotalPages(moviesData.total_pages ?? null);
+
+      // 2) Бүх жанрын жагсаалт + одоогийн жанрын нэр
+      const genresRes = await fetch(
+        "https://api.themoviedb.org/3/genre/movie/list?language=en-US",
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: TOKEN,
+          },
+        }
+      );
+
+      const genresData = await genresRes.json();
+      const list = (genresData.genres || []) as Genre[];
+
+      setAllGenres(list);
+
+      const found = list.find((g) => String(g.id) === String(genresid));
+      setGenre(found || null);
+    } catch (e) {
+      console.error(e);
+      setError("Failed to load movies");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [genresid, page]); // ← заавал page орсон байх ёстой
+
 
   return (
   <div className="min-h-screen bg-background text-foreground">

@@ -2,33 +2,26 @@
 
 import React from "react";
 import {
-  Pagination as ShadcnPagination,
+  Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-  PaginationEllipsis,
 } from "@/components/ui/pagination";
 
 type PaginationProps = {
   page: number;                       // одоогийн page
-  totalPages?: number | null;         // TMDB-аас ирсэн нийт page (optional)
-  onPageChange: (page: number) => void; // parent дээр state солих callback
+  totalPages?: number;                // хүсвэл TMDB total_pages дамжуулна
+  onPageChange: (page: number) => void; // page солиход parent-д мэдэгдэнэ
 };
 
-export function MoviePagination({
-  page,
-  totalPages,
-  onPageChange,
-}: PaginationProps) {
-  const safeTotal = totalPages && totalPages > 0 ? totalPages : undefined;
-
+export function MoviePagination({ page, totalPages, onPageChange }: PaginationProps) {
   const canPrev = page > 1;
-  const canNext = safeTotal ? page < safeTotal : true;
+  const canNext = totalPages ? page < totalPages : true;
 
   const handlePrev = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+    e.preventDefault();               // href="#" → page refresh хийхгүй
     if (canPrev) onPageChange(page - 1);
   };
 
@@ -37,20 +30,11 @@ export function MoviePagination({
     if (canNext) onPageChange(page + 1);
   };
 
-  // --- Дээрх 2-р зураг шиг 1 2 ... 5 --- //
-  let pageNumbers: number[] = [];
-
-  if (safeTotal) {
-    const maxToShow = 5;
-    const count = Math.min(safeTotal, maxToShow);
-    for (let i = 1; i <= count; i++) pageNumbers.push(i);
-  } else {
-    // totalPages байхгүй үед зүгээр 1–5 харуулчихъя
-    pageNumbers = [1, 2, 3, 4, 5];
-  }
+  // Энгийнээр 1–5-г харуулъя (teacher-ийнх шиг)
+  const pagesToShow = [1, 2, 3, 4, 5];
 
   return (
-    <ShadcnPagination className="mt-8">
+    <Pagination className="mt-8">
       <PaginationContent className="flex justify-center gap-1">
         {/* Previous */}
         <PaginationItem>
@@ -64,40 +48,20 @@ export function MoviePagination({
         </PaginationItem>
 
         {/* 1 2 3 4 5 */}
-        {pageNumbers.map((num) => (
-          <PaginationItem key={num}>
+        {pagesToShow.map((p) => (
+          <PaginationItem key={p}>
             <PaginationLink
               href="#"
-              isActive={num === page}
+              isActive={p === page}
               onClick={(e) => {
                 e.preventDefault();
-                onPageChange(num);
+                onPageChange(p);
               }}
             >
-              {num}
+              {p}
             </PaginationLink>
           </PaginationItem>
         ))}
-
-        {/* ... last */}
-        {safeTotal && safeTotal > 5 && (
-          <>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onPageChange(safeTotal);
-                }}
-              >
-                {safeTotal}
-              </PaginationLink>
-            </PaginationItem>
-          </>
-        )}
 
         {/* Next */}
         <PaginationItem>
@@ -110,6 +74,6 @@ export function MoviePagination({
           </PaginationNext>
         </PaginationItem>
       </PaginationContent>
-    </ShadcnPagination>
+    </Pagination>
   );
 }
