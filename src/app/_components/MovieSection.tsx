@@ -45,7 +45,7 @@ export const MovieSection = ({ category, limit }: Props) => {
     const getData = async () => {
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`, // 👈 page ашиглаж байна
+          `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=${page}`,
           {
             method: "GET",
             headers: {

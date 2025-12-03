@@ -1,4 +1,3 @@
-
 import { DataTransfer } from "./_components/Genres";
 import SeeMoreButton from "./_components/SeeMoreButton";
 import { Footer } from "./_components/Footer";
@@ -32,7 +31,7 @@ export default function Home() {
       <section className="px-10 pb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold ">Top Rated</h2>
-          <SeeMoreButton href="/movies/top-rated" />
+          <SeeMoreButton href="/movies/top_rated" />
         </div>
         <MovieSection category="top_rated" limit={5} />
       </section>

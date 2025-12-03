@@ -8,7 +8,7 @@ type Params = {
   category: string;
 };
 
-const TITLE_MAP: Record<string, string> = {
+const TITLE_MAP: Record<string> = {
   upcoming: "Upcoming Movies",
   popular: "Popular Movies",
   top_rated: "Top Rated Movies",
@@ -17,11 +17,10 @@ const TITLE_MAP: Record<string, string> = {
 export default function CategoryPage() {
   const { category } = useParams<Params>();
 
-  
-  if (!category || !TITLE_MAP[category]) {
+  if (!category) {
     return notFound();
   }
-
+  console.log(category);
   const title = TITLE_MAP[category];
 
   return (
@@ -30,8 +29,6 @@ export default function CategoryPage() {
         <h1 className="text-2xl font-bold">{title}</h1>
         <BackHome />
       </div>
-
-      
 
       <MovieSection
         category={category as "upcoming" | "popular" | "top_rated"}
