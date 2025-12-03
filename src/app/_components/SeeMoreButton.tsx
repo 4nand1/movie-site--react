@@ -1,4 +1,4 @@
-// src/app/_components/SeeMoreButton.tsx
+
 import Link from "next/link";
 
 export default function SeeMoreButton({ href }: { href: string }) {

@@ -5,75 +5,118 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type PaginationProps = {
-  page: number;                       // одоогийн page
-  totalPages?: number;                // хүсвэл TMDB total_pages дамжуулна
-  onPageChange: (page: number) => void; // page солиход parent-д мэдэгдэнэ
+  page: number;
+  totalPages?: number;
+  onPageChange: (page: number) => void;
 };
 
-export function MoviePagination({ page, totalPages, onPageChange }: PaginationProps) {
+export function MoviePagination({
+  page,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
   const canPrev = page > 1;
   const canNext = totalPages ? page < totalPages : true;
 
-  const handlePrev = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();               // href="#" → page refresh хийхгүй
+  const handlePrev = () => {
     if (canPrev) onPageChange(page - 1);
   };
 
-  const handleNext = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleNext = () => {
     if (canNext) onPageChange(page + 1);
   };
 
-  // Энгийнээр 1–5-г харуулъя (teacher-ийнх шиг)
-  const pagesToShow = [1, 2, 3, 4, 5];
-
   return (
-    <Pagination className="mt-8">
-      <PaginationContent className="flex justify-center gap-1">
-        {/* Previous */}
-        <PaginationItem>
-          <PaginationPrevious
-            href="#"
-            onClick={handlePrev}
-            className={!canPrev ? "pointer-events-none opacity-40" : ""}
-          >
-            Previous
-          </PaginationPrevious>
-        </PaginationItem>
-
-        {/* 1 2 3 4 5 */}
-        {pagesToShow.map((p) => (
-          <PaginationItem key={p}>
-            <PaginationLink
-              href="#"
-              isActive={p === page}
-              onClick={(e) => {
-                e.preventDefault();
-                onPageChange(p);
-              }}
+    <div className="flex justify-end mt-8">
+      <Pagination>
+        <PaginationContent className="w-fit m-0 gap-2 text-xs sm:text-sm">
+          <PaginationItem>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handlePrev}
+              disabled={!canPrev}
+              className={!canPrev ? "opacity-40 cursor-not-allowed" : ""}
             >
-              {p}
-            </PaginationLink>
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              Previous
+            </Button>
           </PaginationItem>
-        ))}
 
-        {/* Next */}
-        <PaginationItem>
-          <PaginationNext
-            href="#"
-            onClick={handleNext}
-            className={!canNext ? "pointer-events-none opacity-40" : ""}
-          >
-            Next
-          </PaginationNext>
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+          {page > 1 && (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          )}
+
+          {page > 1 && (
+            <PaginationItem>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => onPageChange(page - 1)}
+              >
+                {page - 1}
+              </Button>
+            </PaginationItem>
+          )}
+
+          <PaginationItem>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="border border-zinc-300"
+            >
+              {page}
+            </Button>
+          </PaginationItem>
+
+          <PaginationItem>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => onPageChange(page + 1)}
+            >
+              {page + 1}
+            </Button>
+          </PaginationItem>
+
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+
+          {totalPages && (
+            <PaginationItem>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => onPageChange(totalPages)}
+              >
+                {totalPages}
+              </Button>
+            </PaginationItem>
+          )}
+
+          <PaginationItem>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleNext}
+              disabled={!canNext}
+              className={!canNext ? "opacity-40 cursor-not-allowed" : ""}
+            >
+              Next
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
   );
 }

@@ -49,7 +49,7 @@ const [totalPages, setTotalPages] = useState<number | undefined>();
     try {
       setLoading(true);
 
-      // 1) Энэ жанрын тухайн page-ийн кинонууд
+     
       const moviesRes = await fetch(
         `https://api.themoviedb.org/3/discover/movie?language=en-US&with_genres=${genresid}&page=${page}`,
         {
@@ -146,9 +146,9 @@ const [totalPages, setTotalPages] = useState<number | undefined>();
 )}
       </section>
 
-      {/* БАРУУН ТАЛ – Search by genre */}
+      
       <aside className="w-64 shrink-0 rounded-lg px-4 py-4 border-l border-[#E4E4E7]">
-        {/* ↑ энд л зураас нэмсэн */}
+       
 
         <p className="text-2xl font-semibold mb-1">
           Search by genre

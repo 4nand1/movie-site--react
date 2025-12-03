@@ -6,16 +6,7 @@ import { Footer } from "../../_components/Footer";
 import { BackHome } from "../../_components/BackHome";
 import { MovieCard } from "../../_components/MovieCard";
 import { useParams } from "next/navigation";
-import Link from "next/link";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { MoviePagination } from "../../_components/Pagination";
 
 type Params = {
   movieid: string;
@@ -40,6 +31,9 @@ export default function LikeThisPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState<number | undefined>(undefined);
+
   useEffect(() => {
     if (!movieid) return;
 
@@ -48,7 +42,7 @@ export default function LikeThisPage() {
         setLoading(true);
 
         const similarRes = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieid}/similar?language=en-US&page=1`,
+          `https://api.themoviedb.org/3/movie/${movieid}/similar?language=en-US&page=${page}`,
           {
             headers: {
               accept: "application/json",
@@ -56,11 +50,13 @@ export default function LikeThisPage() {
             },
           }
         );
+
         if (!similarRes.ok) throw new Error("Failed to load similar movies");
         const similarData = await similarRes.json();
-        setMovies(similarData.results || []);
 
-        // 2. Гол киноны нэр
+        setMovies(similarData.results || []);
+        setTotalPages(similarData.total_pages || 1);
+
         const movieRes = await fetch(
           `https://api.themoviedb.org/3/movie/${movieid}?language=en-US`,
           {
@@ -83,14 +79,13 @@ export default function LikeThisPage() {
     };
 
     fetchData();
-  }, [movieid]);
+  }, [movieid, page]);
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
 
       <main className="flex-1 flex justify-center px-10 py-8">
-        
         <div className="w-[1080px]">
           <div className="flex justify-between items-center mb-6">
             <div>
@@ -108,39 +103,22 @@ export default function LikeThisPage() {
           {error && <p className="text-sm text-red-500 mt-4">{error}</p>}
 
           {!loading && !error && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {movies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-6">
+                {movies.map((movie) => (
+                  <MovieCard key={movie.id} movie={movie} />
+                ))}
+              </div>
+
+              <MoviePagination
+                page={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            </>
           )}
         </div>
       </main>
-
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
 
       <Footer />
     </div>

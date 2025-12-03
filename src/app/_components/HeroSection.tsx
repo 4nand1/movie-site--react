@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import ReactPlayer from "react-player";
 
-// ---------------- Төрлүүд ----------------
+
 type HeroMovie = {
   id: number;
   title: string;
@@ -33,23 +33,23 @@ type VideoItem = {
   type: string;
 };
 
-// ---------------- Тогтмол ----------------
 const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 
-// яг нэг мөр дээр байг, өмнөх алдаа чинь эндээс болсон
+
 const TOKEN =
   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTBmNzRkZjEzMTdhMjNkNWVmM2E3OTMzMDhhMGQ1OSIsIm5iZiI6MTc2MzUyMzU2OS45Mjk5OTk4LCJzdWIiOiI2OTFkM2JmMThjMjY4ZjAzYTYyZDQxM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.fjSnRCovwF4rjUgEamZEk0VD2sMSrH4At5SU8WV6p6k";
 
-// ---------------- Компонент ----------------
+
 export const HeroSection = () => {
   const [movies, setMovies] = useState<HeroMovie[]>([]);
 
-  // trailer modal–д хэрэгтэй state-ууд
+  
   const [trailerKey, setTrailerKey] = useState<string | null>(null);
   const [trailerOpen, setTrailerOpen] = useState(false);
   const [trailerLoading, setTrailerLoading] = useState(false);
 
-  // ---------------- Now playing кино татах ----------------
+  
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -64,7 +64,7 @@ export const HeroSection = () => {
         );
 
         const data: TMDBResponse = await res.json();
-        // эхний 5 кино hero дээр
+      
         setMovies(data.results.slice(0, 5));
       } catch (error) {
         console.error("Hero fetch error:", error);
@@ -74,7 +74,7 @@ export const HeroSection = () => {
     getData();
   }, []);
 
-  // ---------------- Trailer татах функц ----------------
+ 
   const handleWatchTrailer = async (movieId: number) => {
     setTrailerOpen(true);
     setTrailerLoading(true);
@@ -94,20 +94,16 @@ export const HeroSection = () => {
       const data = await res.json();
       const videos: VideoItem[] = data.results || [];
 
-      // 1. Trailer
+      
       let trailer =
         videos.find(
           (v) => v.type === "Trailer" && v.site === "YouTube"
-        ) ||
-        // 2. Trailer байхгүй бол Teaser
-        videos.find((v) => v.type === "Teaser" && v.site === "YouTube") ||
-        // 3. Бас байхгүй бол эхний YouTube video
-        videos.find((v) => v.site === "YouTube");
+        ) 
 
       if (trailer) {
         setTrailerKey(trailer.key);
       } else {
-        alert("Trailer not found for this movie 😢");
+        alert("Trailer not found for this movie");
         setTrailerOpen(false);
       }
     } catch (err) {
@@ -128,7 +124,7 @@ export const HeroSection = () => {
 
   return (
     <>
-      {/* --------- HERO CAROUSEL --------- */}
+      
       <section className="px-10 pt-6">
         <Carousel className="w-full">
           <CarouselContent>
@@ -166,7 +162,7 @@ export const HeroSection = () => {
                       </p>
 
                       <div className="flex gap-3">
-                        {/* Trailer үзэх */}
+                     
                         <Button
                           variant="outline"
                           className="bg-white dark:bg-white text-black text-sm font-medium px-5 py-2 rounded-full"
@@ -176,7 +172,6 @@ export const HeroSection = () => {
                           {trailerLoading ? "Loading..." : "Watch Trailer"}
                         </Button>
 
-                        {/* Хэрвээ хүсвэл details page рүү орох товчоо үлдээж болно */}
                         <Link href={`/movie/${movie.id}`}>
                           <Button
                             variant="outline"
@@ -198,7 +193,7 @@ export const HeroSection = () => {
         </Carousel>
       </section>
 
-      {/* --------- TRAILER MODAL --------- */}
+      
       {trailerOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
           <div className="relative w-full max-w-4xl aspect-video bg-black">
