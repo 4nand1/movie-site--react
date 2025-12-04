@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Default } from "./Default";
-import { DataTransfer } from "./Genres";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -59,12 +59,12 @@ export const Header = () => {
     fetchGenres();
   }, []);
 
-  const genreList = genres.length ? genres : DataTransfer;
+  const genreList = Array.isArray(genres) ? genres : [];
 
   return (
     <header className="h-[64px] flex items-center justify-between px-10 border-b border-gray-200">
       <div className="flex items-center gap-2">
-        <img src="/Vector.png" />
+        <img rc="/Vector.png" />
         <img src="/Movie Z.png" />
       </div>
 

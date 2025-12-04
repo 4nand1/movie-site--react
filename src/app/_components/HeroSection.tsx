@@ -210,7 +210,7 @@ export const HeroSection = () => {
               </div>
             ) : (
               <ReactPlayer
-                url={`https://www.youtube.com/watch?v=${trailerKey}`}
+                src={`https://www.youtube.com/watch?v=${trailerKey}`}
                 playing
                 controls
                 width="100%"

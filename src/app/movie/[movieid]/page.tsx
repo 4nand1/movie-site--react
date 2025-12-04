@@ -3,8 +3,8 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { Header } from "../../_components/Header";
-import { Footer } from "../../_components/Footer";
+
+
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -151,7 +151,7 @@ export default function MovieDetailPage() {
 
   return (
     <div className="flex flex-col items-center gap-3 min-h-screen ">
-      <Header />
+      
       <div className="w-[1080px] flex-end mt-4">
         <BackHome />
       </div>
@@ -245,7 +245,7 @@ export default function MovieDetailPage() {
           </div>
         </div>
       </div>
-      <Footer />
+      
     </div>
   );
 }

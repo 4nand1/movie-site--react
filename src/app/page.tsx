@@ -1,14 +1,14 @@
-import { DataTransfer } from "./_components/Genres";
+
 import SeeMoreButton from "./_components/SeeMoreButton";
-import { Footer } from "./_components/Footer";
+
 import { MovieSection } from "./_components/MovieSection";
 import { HeroSection } from "./_components/HeroSection";
-import { Header } from "./_components/Header";
+
 
 export default function Home() {
   return (
     <main className="min-h-screen   ">
-      <Header></Header>
+      
 
       <HeroSection />
 
@@ -37,7 +37,7 @@ export default function Home() {
       </section>
 
       <section>
-        <Footer></Footer>
+       
       </section>
     </main>
   );

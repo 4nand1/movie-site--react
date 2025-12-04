@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Header } from "../../_components/Header";
-import { Footer } from "../../_components/Footer";
+
+
 import { BackHome } from "../../_components/BackHome";
 import { MovieCard } from "../../_components/MovieCard";
 import { useParams } from "next/navigation";
@@ -83,7 +83,7 @@ export default function LikeThisPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      
 
       <main className="flex-1 flex justify-center px-10 py-8">
         <div className="w-[1080px]">
@@ -120,7 +120,7 @@ export default function LikeThisPage() {
         </div>
       </main>
 
-      <Footer />
+      
     </div>
   );
 }
