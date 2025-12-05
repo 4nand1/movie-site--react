@@ -38,7 +38,7 @@ export default function MovieGenresPage() {
     <div className="min-h-screen bg-background text-foreground">
       <main className="container mx-auto px-10 py-8">
         <div className="flex gap-8">
-          {/* Зүүн – search results */}
+          
           <section className="flex-1">
             <div className="flex justify-between items-center mb-4">
               <div>
@@ -63,7 +63,7 @@ export default function MovieGenresPage() {
             </div>
           </section>
 
-          {/* Баруун – жанр filter */}
+         
           <aside className="w-64 shrink-0 rounded-lg px-4 py-4 border-l border-[#E4E4E7]">
             <p className="text-2xl font-semibold mb-1">Search by genre</p>
             <p className="text-xs text-zinc-400 mb-3">

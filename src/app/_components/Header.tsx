@@ -63,10 +63,13 @@ export const Header = () => {
 
   return (
     <header className="h-[64px] flex items-center justify-between px-10 border-b border-gray-200">
-      <div className="flex items-center gap-2">
-        <img rc="/Vector.png" />
-        <img src="/Movie Z.png" />
-      </div>
+      <Link href="/">
+        <div className="flex   gap-2">
+          <img src="/Vector.png" />
+          <img src="/Movie Z.png" />
+        </div>
+      </Link>
+      
 
       <div className="flex flex-1 items-center gap-3 max-w-[600px] mx-8">
         <NavigationMenu className="w-25 h-9  rounded-md border ">
