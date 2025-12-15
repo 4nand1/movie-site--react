@@ -226,7 +226,7 @@ export default function MovieDetailPage() {
           </div>
         </div>
 
-        <div className="w-[1080px] space-y-4">
+        <div className="w-[1080px] space-y-4 mb-10 gap-3">
           <div className="flex justify-between w-full">
             <p className="text-[24px] font-semibold">More like this</p>
             <Button variant="secondary" asChild>
