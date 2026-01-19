@@ -8,7 +8,7 @@ type Params = {
   category: string;
 };
 
-const TITLE_MAP: Record<string> = {
+const TITLE_MAP: Record<string, string> = {
   upcoming: "Upcoming Movies",
   popular: "Popular Movies",
   top_rated: "Top Rated Movies",
