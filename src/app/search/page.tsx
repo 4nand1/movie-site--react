@@ -28,7 +28,7 @@ function SearchPageContent() {
   const [totalPages, setTotalPages] = useState<number | undefined>();
 
   useEffect(() => {
-    // query солигдох бүрт page-ийг 1 болгоно
+   
     setPage(1);
   }, [query]);
 
