@@ -153,7 +153,7 @@ export const HeroSection = () => {
                             src="/Vector (3).png"
                             className="w-5 h-5 inline-block mr-1"
                           />
-                          <span>{movie.vote_average.toFixed(1)} / 10</span>
+                          <span>{Math.round(movie.vote_average / 10) * 10} / 10</span>
                         </div>
                       </div>
 

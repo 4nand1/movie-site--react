@@ -10,6 +10,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { BackHome } from "@/app/_components/BackHome";
 import { MovieCard } from "@/app/_components/MovieCard";
+import { MovieSkeleton } from "@/app/_components/MovieSkeleton";
 import { Movie } from "@/app/_components/MovieSection";
 
 type Genre = {
@@ -141,7 +142,7 @@ export default function MovieDetailPage() {
   const stars = credits?.cast?.slice(0, 4);
 
   if (error) return <div className="p-10 text-red-600">{error}</div>;
-  if (!movie) return <div className="p-10">Loading...</div>;
+  if (!movie) return <MovieSkeleton />;
 
   const genres = movie.genres || [];
   const formattedVotes =
@@ -150,7 +151,7 @@ export default function MovieDetailPage() {
       : movie.vote_count.toString();
 
   return (
-    <div className="flex flex-col items-center gap-3 min-h-screen ">
+    <div className="flex flex-col items-center gap-3 min-h-screen pb-20">
       
       <div className="w-[1080px] flex-end mt-4">
         <BackHome />
@@ -173,7 +174,7 @@ export default function MovieDetailPage() {
               <img src="/Vector (3).png" className="w-7 h-7"></img>
               <div className="flex flex-col gap-1 items-end">
                 <p className="font-semibold">
-                  {movie?.vote_average.toFixed(1)}/10
+                  {Math.round((movie?.vote_average || 0) / 10) * 10}/10
                 </p>
                 <p className="text-xs text-[6B7280]">{formattedVotes}</p>
               </div>
@@ -183,7 +184,12 @@ export default function MovieDetailPage() {
         <div className="w-[1080px] h-[428px] flex justify-between">
           <div className="flex justify-between gap-6">
             <img
-              src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
+              src={movie?.poster_path ? `https://image.tmdb.org/t/p/original/${movie?.poster_path}` : "/placeholder.svg"}
+              alt={movie?.title}
+              className="w-auto h-[428px] object-cover rounded"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/placeholder.svg";
+              }}
             ></img>
             <ReactPlayer
               src={`https://www.youtube.com/watch?v=${video}`}

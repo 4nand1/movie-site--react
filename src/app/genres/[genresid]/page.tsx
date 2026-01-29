@@ -26,8 +26,10 @@ export default function MovieGenresPage() {
     if (!genresid) return;
 
     const currentGenreIds = searchParams.get("genreIds");
+    // Already has the genreIds param from Header or GenreList interaction
     if (currentGenreIds) return;
 
+    // Only set if coming from old URL without query params
     const params = new URLSearchParams(searchParams.toString());
     params.set("genreIds", String(genresid));
 

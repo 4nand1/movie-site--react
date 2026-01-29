@@ -1,10 +1,16 @@
 "use client";
 import Link from "next/link";
 
+const roundToNearest10 = (value: number): number => {
+  return Math.round(value / 10) * 10;
+};
+
 export const MovieCard = ({ movie }: any) => {
   const imgSrc = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : "/fallback.jpg";
+    : "/placeholder.svg";
+
+  const roundedRating = roundToNearest10(movie.vote_average);
 
   return (
     <Link href={`/movie/${movie.id}`}>
@@ -14,13 +20,16 @@ export const MovieCard = ({ movie }: any) => {
             src={imgSrc}
             alt={movie.title}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/placeholder.svg";
+            }}
           />
         </div>
 
         <div className="p-3">
           <div className="flex items-center gap-1">
           <img src="/Vector (3).png" className="w-4 h-4 inline-block mr-1" />
-          <p className="text-xs"> {movie.vote_average} / 10</p>
+          <p className="text-xs"> {roundedRating} / 10</p>
           </div>
           <p className="text-sm font-medium text-[#09090B] dark:text-white truncate">
             {movie.title}
