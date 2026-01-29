@@ -129,18 +129,18 @@ export const Header = () => {
             <NavigationMenuTrigger className="px-4 py-2 text-sm font-medium">
               Genres
             </NavigationMenuTrigger>
-            <NavigationMenuContent className="pl- border border-[#E4E4E7] rounded-lg w-[557px] h-[333px]">
+            <NavigationMenuContent className="border border-[#E4E4E7] rounded-lg w-[557px] h-[333px] p-4">
               <div className="flex flex-col gap-3">
-                <p className="text-[24px]  leading-6 font-semibold font-sans">
+                <p className="text-[24px] leading-6 font-semibold font-sans">
                   Genres
                 </p>
-                <p className="text-[16px] ] leading-6 font-normal font-sans">
+                <p className="text-[16px] leading-6 font-normal font-sans">
                   See lists of movies by genre
                 </p>
               </div>
-              <div className="w-[537px] h-[15px] border-b border-[#E4E4E7] "></div>
+              <div className="w-full h-[1px] border-b border-[#E4E4E7] my-4"></div>
 
-              <div className="w-[527px] flex flex-wrap gap-4 mt-5">
+              <div className="w-full flex flex-wrap gap-4">
                 {genreList.map((item, index) => (
                   <Link
                     key={index}

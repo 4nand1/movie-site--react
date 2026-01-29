@@ -174,7 +174,7 @@ export default function MovieDetailPage() {
               <img src="/Vector (3).png" className="w-7 h-7"></img>
               <div className="flex flex-col gap-1 items-end">
                 <p className="font-semibold">
-                  {Math.round((movie?.vote_average || 0) / 10) * 10}/10
+                  {(movie?.vote_average || 0).toFixed(1)}/10
                 </p>
                 <p className="text-xs text-[6B7280]">{formattedVotes}</p>
               </div>
