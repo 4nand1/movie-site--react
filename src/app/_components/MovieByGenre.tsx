@@ -22,23 +22,37 @@ const TOKEN =
 
 export const MovieByGenre = ({ page, onTotalPages }: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
 
-  const genreIds = searchParams.get("genreIds")?.split(",") || [];
+  const genreIds = searchParams.get("genreIds")?.split(",").filter(Boolean) || [];
+  const genreIdsKey = genreIds.join(",");
+  const sortBy = searchParams.get("sortBy") ?? "popularity.desc";
+  const voteGte = searchParams.get("voteGte") ?? "0";
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!genreIds.length) {
+      if (!genreIdsKey) {
         setMovies([]);
         onTotalPages?.(1);
         return;
       }
 
       try {
+        setLoading(true);
+        const params = new URLSearchParams({
+          language: "en",
+          with_genres: genreIdsKey,
+          page: String(page),
+          sort_by: sortBy,
+        });
+
+        if (Number(voteGte) > 0) {
+          params.set("vote_average.gte", voteGte);
+        }
+
         const res = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${genreIds.join(
-            ","
-          )}&page=${page}`,
+          `https://api.themoviedb.org/3/discover/movie?${params.toString()}`,
           {
             headers: {
               accept: "application/json",
@@ -54,17 +68,46 @@ export const MovieByGenre = ({ page, onTotalPages }: Props) => {
         console.error(error);
         setMovies([]);
         onTotalPages?.(1);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [genreIds.join(","), page]);
+  }, [genreIdsKey, page, sortBy, voteGte, onTotalPages]);
 
-  if (!genreIds.length) {
+  if (!genreIdsKey) {
     return (
       <p className="text-sm text-zinc-500">
         Choose one or more genres from the right.
       </p>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        {Array.from({ length: 10 }).map((_, index) => (
+          <div
+            key={index}
+            className="overflow-hidden rounded-lg border border-zinc-200 shadow-sm"
+          >
+            <div className="aspect-[2/3] animate-pulse bg-zinc-200 dark:bg-zinc-800" />
+            <div className="space-y-2 p-3">
+              <div className="h-3 w-16 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+              <div className="h-4 w-24 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (!movies.length) {
+    return (
+      <div className="rounded-2xl border border-dashed border-zinc-300 p-8 text-center text-sm text-zinc-500 dark:border-zinc-700">
+        No movies matched the selected genre filters.
+      </div>
     );
   }
 

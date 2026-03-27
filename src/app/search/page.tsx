@@ -17,20 +17,11 @@ type SearchResponse = {
   total_results: number;
 };
 
-function SearchPageContent() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("query") ?? "";
-
+function SearchResults({ query }: { query: string }) {
   const [movies, setMovies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number | undefined>();
-
-  useEffect(() => {
-   
-    setPage(1);
-  }, [query]);
 
   useEffect(() => {
     if (!query) return;
@@ -90,6 +81,13 @@ function SearchPageContent() {
       )}
     </main>
   );
+}
+
+function SearchPageContent() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query") ?? "";
+
+  return <SearchResults key={query} query={query} />;
 }
 
 export default function SearchPage() {
