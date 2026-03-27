@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense, useState, useRef } from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,8 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { GenreList } from "./GenreList";
-
-import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -109,10 +108,12 @@ export const Header = () => {
               <div className="w-full h-[1px] border-b border-[#E4E4E7] my-4"></div>
 
               <div className="w-full">
-                <GenreList
-                  showSelectionSummary
-                  listClassName="max-h-[320px] max-w-none overflow-y-auto pr-2"
-                />
+                <Suspense fallback={<div className="py-4 text-sm text-zinc-500">Loading genres...</div>}>
+                  <GenreList
+                    showSelectionSummary
+                    listClassName="max-h-[320px] max-w-none overflow-y-auto pr-2"
+                  />
+                </Suspense>
               </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
