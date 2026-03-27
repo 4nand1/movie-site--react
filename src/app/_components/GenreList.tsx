@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCurrentUrl } from "./useCurrentUrl";
 
 type MovieGenre = {
   id: number;
@@ -25,8 +26,8 @@ export const GenreList = ({
   listClassName,
   showSelectionSummary = false,
 }: GenreListProps) => {
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const { searchParams } = useCurrentUrl();
   const selectedGenreIds = useMemo(
     () => searchParams.get("genreIds")?.split(",").filter(Boolean) ?? [],
     [searchParams]

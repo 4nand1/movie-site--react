@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { Movie } from "./MovieSection";
 import { MovieCard } from "./MovieCard";
+import { useCurrentUrl } from "./useCurrentUrl";
 
 type Response = {
   page: number;
@@ -23,7 +23,7 @@ const TOKEN =
 export const MovieByGenre = ({ page, onTotalPages }: Props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
+  const { searchParams } = useCurrentUrl();
 
   const genreIds = searchParams.get("genreIds")?.split(",").filter(Boolean) || [];
   const genreIdsKey = genreIds.join(",");

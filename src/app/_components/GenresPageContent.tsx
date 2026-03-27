@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { BackHome } from "./BackHome";
 import { GenreList } from "./GenreList";
 import { MovieByGenre } from "./MovieByGenre";
 import { MoviePagination } from "./Pagination";
 import { Button } from "@/components/ui/button";
+import { useCurrentUrl } from "./useCurrentUrl";
 
 const SORT_OPTIONS = [
   { label: "Popular", value: "popularity.desc" },
@@ -45,9 +46,8 @@ type Props = {
 };
 
 export function GenresPageContent({ initialGenreId }: Props) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
   const router = useRouter();
+  const { pathname, searchParams } = useCurrentUrl();
   const syncedGenreRef = useRef<string | null>(null);
 
   const selectedGenreIds = useMemo(
