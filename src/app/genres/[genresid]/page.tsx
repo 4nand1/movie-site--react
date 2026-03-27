@@ -1,10 +1,19 @@
-"use client";
+import { Suspense } from "react";
 
-import { useParams } from "next/navigation";
 import { GenresPageContent } from "../../_components/GenresPageContent";
 
-export default function MovieGenresPage() {
-  const { genresid } = useParams<{ genresid: string }>();
+type PageProps = {
+  params: Promise<{
+    genresid: string;
+  }>;
+};
 
-  return <GenresPageContent initialGenreId={genresid} />;
+export default async function MovieGenresPage({ params }: PageProps) {
+  const { genresid } = await params;
+
+  return (
+    <Suspense fallback={<div className="px-10 py-8">Loading genres...</div>}>
+      <GenresPageContent initialGenreId={genresid} />
+    </Suspense>
+  );
 }
